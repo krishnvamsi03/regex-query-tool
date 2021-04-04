@@ -1,0 +1,44 @@
+#expressionInput:focus,
+#testInput:focus {
+  box-shadow: none;
+  border: 1px solid #ced4da;
+}
+
+#testInput {
+  height: 300px;
+}
+
+#expressionContainer div {
+  float: left;
+  display: inline;
+}
+
+#selectContainer {
+  margin-top: 33px;
+}
+
+#selectContainer select {
+  width: 130px;
+  height: 36px;
+  margin-left: 5px;
+}
+
+#formContainer {
+  border-radius: 5px;
+  padding: 5px;
+}
+
+#savedRegex {
+  display: block;
+  margin-top: 15px;
+}
+
+#savedRegex p{
+    width: 100%;
+}
+
+#savedRegex div {
+  width: 100%;
+  height: 1px;
+  background-color: black;
+}

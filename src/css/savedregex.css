@@ -1,0 +1,44 @@
+.savedCards {
+  border: 1px solid gray;
+  border-radius: 5px;
+  margin-top: 5px;
+  height: 40px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.saveContainer {
+  padding: 5px;
+}
+
+.savedCards p {
+  margin: 6px 0px 7px 15px;
+  cursor: pointer;
+}
+
+.savedCards p,
+img {
+  float: left;
+}
+
+.trashIcon {
+  width: 25px;
+  height: 20px;
+  margin-top: 10px;
+}
+
+.savedPatterns {
+    display: none;
+    border: 1px solid #607D8B;
+    height: 50px;
+    border-radius: 5px;
+    border-top: none;
+}
+
+.active {
+    display: block;
+}
+
+.inactive {
+    display: "";
+}

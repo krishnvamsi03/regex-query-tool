@@ -1,0 +1,8 @@
+#authContainer a {
+  text-decoration: none !important;
+  color: #37474F;
+}
+
+#signupLink {
+    padding-left: 3px;
+}
