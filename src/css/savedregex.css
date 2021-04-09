@@ -11,14 +11,13 @@
   padding: 5px;
 }
 
-.savedCards p {
-  margin: 6px 0px 7px 15px;
-  cursor: pointer;
+.savedCards span {
+  position: relative;
+  top: 5px;
 }
 
-.savedCards p,
-img {
-  float: left;
+.savedCards img {
+  float: right;
 }
 
 .trashIcon {
@@ -28,17 +27,17 @@ img {
 }
 
 .savedPatterns {
-    display: none;
-    border: 1px solid #607D8B;
-    height: 50px;
-    border-radius: 5px;
-    border-top: none;
+  display: none;
+  border: 1px solid #607d8b;
+  height: 50px;
+  border-radius: 5px;
+  border-top: none;
 }
 
 .active {
-    display: block;
+  display: block;
 }
 
 .inactive {
-    display: "";
+  display: "";
 }

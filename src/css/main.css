@@ -1,3 +1,17 @@
+html,
+body {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+#main {
+  margin-top: 10px;
+  height: 60% !important;
+}
+
 #expressionInput:focus,
 #testInput:focus {
   box-shadow: none;
@@ -33,8 +47,8 @@
   margin-top: 15px;
 }
 
-#savedRegex p{
-    width: 100%;
+#savedRegex p {
+  width: 100%;
 }
 
 #savedRegex div {

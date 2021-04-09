@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.css";
 class Main extends Component {
   render() {
     let expressionInput = (
-      <div className="container-fluid row">
+      <div id="main" className="container-fluid row">
         <div className="col-8">
           <div className="expressionContainer row no-gutters">
             <div id="expressionDiv" className="col-10">
