@@ -35,7 +35,7 @@ class Navbar extends Component {
   render() {
     let navbar = (
       <React.Fragment>
-        <nav className="navbar navbar-dark bg-dark">
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
           <div className="container-fluid">
             <a className="navbar-brand" href="#">
               Regez Tool
@@ -51,7 +51,7 @@ class Navbar extends Component {
               >
                 Login
               </button>
-              <span id="separator"></span>
+              {/* <span id="separator"></span> */}
               <button
                 id="signupLink"
                 className="btn btn-primary"

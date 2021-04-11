@@ -10,9 +10,9 @@ body {
 #main {
   margin-top: 10px;
   height: 60% !important;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
 }
 
-#expressionInput:focus,
 #testInput:focus {
   box-shadow: none;
   border: 1px solid #ced4da;
@@ -55,4 +55,15 @@ body {
   width: 100%;
   height: 1px;
   background-color: black;
+}
+
+#expressionDiv input,
+#formContainer input,
+#selectContainer select {
+  border: none;
+  border-bottom: 1px solid gray;
+  padding: 0px;
+  box-shadow: none;
+  border-radius: 0px;
+  outline: none;
 }

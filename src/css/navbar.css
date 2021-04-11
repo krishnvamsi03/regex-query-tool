@@ -30,3 +30,10 @@
   height: 25px;
   margin-top: 7px;
 }
+
+.loginIcon {
+  display: block;
+  width: 16px;
+  height: 10px;
+  float: left;
+}
