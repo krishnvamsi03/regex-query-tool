@@ -70,20 +70,30 @@ class SavedRegex extends Component {
               key={"card-" + ele.id}
               className="savedCards"
               selected={true}
-              onClick={() => this.onClickShowCard(ele.id)}
             >
               <div
                 id={"savedRegez" + ele.id}
                 key={"savedRegez" + ele.id}
                 className="container"
               >
-                <span key={"regexname" + ele.id}>{ele.regexName}</span>
+                <span
+                  key={"regexname" + ele.id}
+                  onClick={() => this.onClickShowCard(ele.id)}
+                >
+                  {ele.regexName}
+                </span>
                 <img
                   key={"imagename" + ele.id}
-                  src="https://firebasestorage.googleapis.com/v0/b/regex-query-tool.appspot.com/o/delete%20(1).png?alt=media&token=36d6a099-829d-4540-80a1-7254a0f7d796"
+                  src="https://firebasestorage.googleapis.com/v0/b/regex-query-tool.appspot.com/o/trash.png?alt=media&token=23240578-f3af-4741-8c5f-7a4e889f0924"
                   className="trashIcon"
                   title="Delete regex"
                   onClick={() => this.deleteRecord(ele.id)}
+                ></img>
+                <img
+                  key={"imagenameEdit" + ele.id}
+                  src="https://firebasestorage.googleapis.com/v0/b/regex-query-tool.appspot.com/o/edit.png?alt=media&token=d313bcac-f5a2-4613-b63f-d7cf0591967e"
+                  className="trashIcon"
+                  title="Edit Regex"
                 ></img>
               </div>
             </div>
