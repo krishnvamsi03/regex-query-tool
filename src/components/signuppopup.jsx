@@ -26,7 +26,7 @@ class SignUpPopup extends Component {
             </button>
           </div>
           <div className="modal-body">
-            <form action="#" method="post">
+            <form action="/api/login" method="post">
               <div className="form-group needs-validation" novalidate>
                 <input
                   type="text"

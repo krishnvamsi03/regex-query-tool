@@ -3,6 +3,7 @@ import "../css/navbar.css";
 import "bootstrap/dist/css/bootstrap.css";
 import LoginPopUp from "./loginpopup";
 import SignUpPopup from "./signuppopup";
+import { GlobalStore } from "../index";
 
 class Navbar extends Component {
   state = {
@@ -33,6 +34,9 @@ class Navbar extends Component {
   };
 
   render() {
+    const { token, error, loading, dispatch } = GlobalStore._currentValue;
+    
+    let temp = loading ? this.togglePopUp() : null;
     let navbar = (
       <React.Fragment>
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">

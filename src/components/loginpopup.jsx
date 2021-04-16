@@ -1,9 +1,30 @@
 import React, { Component } from "react";
 import "../css/loginpopup.css";
+import { loginUser } from "../utility/login.js";
+import reducer, { initialState } from "../store/reducers/auth";
+import { authLogin } from "../store/actions/auth";
+import { GlobalStore } from "../index";
 
 class LoginPopUp extends Component {
   state = {};
+
+  handleSubmitAction = (dispatch) => {
+    let oUsername = document.getElementById("loginInput");
+    let oPassword = document.getElementById("passwordInput");
+    if (oUsername && oPassword) {
+      dispatch(authLogin(oUsername.value, oPassword.value));
+      //login(dispatch);
+    }
+  };
+
   render() {
+    const {
+      token,
+      error,
+      loading,
+      dispatch,
+      state,
+    } = GlobalStore._currentValue;
     let data = (
       <div id="popupWindow" className="modals">
         <div className="modal-content">
@@ -30,6 +51,7 @@ class LoginPopUp extends Component {
                   required="required"
                   spellcheck="false"
                   data-ms-editor="true"
+                  id="loginInput"
                 />
               </div>
               <div className="form-group">
@@ -39,12 +61,14 @@ class LoginPopUp extends Component {
                   name="password"
                   placeholder="Password"
                   required="required"
+                  id="passwordInput"
                 />
               </div>
               <div className="form-group">
                 <button
-                  type="submit"
+                  type="button"
                   className="btn btn-success btn-lg btn-block login-btn"
+                  onClick={() => this.handleSubmitAction(dispatch)}
                 >
                   Login
                 </button>

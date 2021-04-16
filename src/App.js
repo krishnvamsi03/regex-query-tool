@@ -2,13 +2,13 @@ import logo from "./logo.svg";
 import "./App.css";
 import Navbar from "./components/navbar";
 import Main from "./components/main";
-import React from "react";
+import React, { useContext } from "react";
 
 function App() {
   return (
     <React.Fragment>
       <Navbar />
-      <Main/>
+      <Main />
     </React.Fragment>
   );
 }
