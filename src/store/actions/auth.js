@@ -21,6 +21,12 @@ export const authFail = (error) => {
   };
 };
 
+export const showMessage = () => {
+  return {
+    type: actionTypes.SHOW_MESSAGE,
+  };
+};
+
 export const authLogout = () => {
   localStorage.removeItem("token");
   localStorage.removeItem("expirationTime");
@@ -53,12 +59,20 @@ export const authLogin = (username, password) => {
             new Date(new Date().getTime() + 3600 * 1000)
           );
           dispatch(authSuccess(response.data.token));
+          dispatch(showMessage());
+          setTimeout(() => {
+            dispatch(showMessage());
+          }, 3000);
           let dispatchTimeOut = checkAuthTimeOut(3600);
           dispatchTimeOut(dispatch);
         }
       })
       .catch((error) => {
         dispatch(authFail(error));
+        dispatch(showMessage());
+        setTimeout(() => {
+          dispatch(showMessage());
+        }, 3000);
       });
   };
 };

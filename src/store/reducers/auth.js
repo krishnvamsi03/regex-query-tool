@@ -1,11 +1,11 @@
 import * as actionTypes from "../actions/actionTypes";
-import * as actionMethod from "../actions/auth";
 import { updateObject } from "../utility";
 
 export const initialState = {
   token: null,
   error: null,
   loading: false,
+  showMessage: false,
 };
 
 const authStart = (state, action) => {
@@ -40,6 +40,12 @@ const authLogout = (state, action) => {
   });
 };
 
+const showMessage = (state, action) => {
+  return updateObject(state, {
+    showMessage: !state.showMessage,
+  });
+};
+
 const reducer = (state, action) => {
   switch (action.type) {
     case actionTypes.AUTH_START:
@@ -50,6 +56,8 @@ const reducer = (state, action) => {
       return authLogout(state, action);
     case actionTypes.AUTH_FAIL:
       return authFail(state, action);
+    case actionTypes.SHOW_MESSAGE:
+      return showMessage(state, action);
     default:
       return state;
   }

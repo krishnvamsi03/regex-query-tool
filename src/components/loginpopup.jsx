@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import "../css/loginpopup.css";
-import { loginUser } from "../utility/login.js";
-import reducer, { initialState } from "../store/reducers/auth";
 import { authLogin } from "../store/actions/auth";
 import { GlobalStore } from "../index";
 
@@ -13,8 +11,8 @@ class LoginPopUp extends Component {
     let oPassword = document.getElementById("passwordInput");
     if (oUsername && oPassword) {
       dispatch(authLogin(oUsername.value, oPassword.value));
-      //login(dispatch);
     }
+    this.props.onDismiss();
   };
 
   render() {
@@ -22,6 +20,7 @@ class LoginPopUp extends Component {
       token,
       error,
       loading,
+      showMessage,
       dispatch,
       state,
     } = GlobalStore._currentValue;

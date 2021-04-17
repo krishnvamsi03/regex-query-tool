@@ -3,20 +3,17 @@ import ReactDOM from "react-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import App from "./App.js";
 import reducer, { initialState } from "./store/reducers/auth";
-import * as actionTypes from "./store/actions/actionTypes";
-import { authLogin } from "./store/actions/auth";
 
 export const GlobalStore = React.createContext();
 
 export const Provider = ({ children }) => {
   const [state, dispatchBase] = React.useReducer(reducer, initialState);
-
   const dispatch = React.useCallback(asyncer(dispatchBase, state), []);
-
   const value = {
     token: state.token,
     error: state.error,
     loading: state.loading,
+    showMessage: state.showMessage,
     dispatch: dispatch,
     state: state,
   };

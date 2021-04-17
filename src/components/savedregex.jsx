@@ -53,7 +53,7 @@ class SavedRegex extends Component {
   onClickShowCard = (Id) => {
     let list = [...this.state.list];
     for (let item of list) {
-      if (item.id == Id) {
+      if (item.id === Id) {
         item.showCard = !item.showCard;
       }
     }

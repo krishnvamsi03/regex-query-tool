@@ -37,3 +37,8 @@
   height: 10px;
   float: left;
 }
+
+#successMesssage,
+#failedMessage {
+  margin-bottom: 0px !important;
+}

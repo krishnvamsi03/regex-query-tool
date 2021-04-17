@@ -1,8 +1,7 @@
-import logo from "./logo.svg";
 import "./App.css";
 import Navbar from "./components/navbar";
 import Main from "./components/main";
-import React, { useContext } from "react";
+import React from "react";
 
 function App() {
   return (
