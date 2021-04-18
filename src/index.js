@@ -14,6 +14,7 @@ export const Provider = ({ children }) => {
     error: state.error,
     loading: state.loading,
     showMessage: state.showMessage,
+    showSignUpMessage: state.showSignUpMessage,
     dispatch: dispatch,
     state: state,
   };

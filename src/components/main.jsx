@@ -1,4 +1,4 @@
-import React, { Component, useContext, useReducer } from "react";
+import React, { Component } from "react";
 import SavedRegex from "./savedregex";
 import "../css/main.css";
 import "bootstrap/dist/css/bootstrap.css";
@@ -24,7 +24,6 @@ class Main extends Component {
         {(context) => (
           <React.Fragment>
             {spinner}
-            {/* <img alt="delete" src="/images/delete.png" /> */}
             <div className="container">
               <div id="main" className="row">
                 <div className="col-8">
@@ -94,10 +93,10 @@ class Main extends Component {
                       <div></div>
                     </div>
                   </div>
-                  {true ? (
+                  {context.token ? (
                     <SavedRegex />
                   ) : (
-                    <div class="alert alert-info" role="alert">
+                    <div className="alert alert-info" role="alert">
                       Login to see your saved regex
                     </div>
                   )}

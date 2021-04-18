@@ -14,7 +14,40 @@ class SignUpPopup extends Component {
 
   handleSubmitAction = (dispatch) => {
     if (dispatch) {
-      dispatch(authSignUp("Test", "Test@gmail.com", "Kriadfad", "kfadfadfa"));
+      let oSignupForm = document.getElementById("signupForm");
+      let oInputs;
+      if (oSignupForm) {
+        oInputs = oSignupForm.getElementsByClassName("form-control");
+      }
+      let oValidationDiv = document.getElementById("errorMessage");
+      let sUserName, sEmail, sPassword, sConfirmPassword;
+      for (let oInput of oInputs) {
+        if (oInput && !oInput.value) {
+          if (oValidationDiv) {
+            oValidationDiv.style.display = "block";
+          }
+          return;
+        } else if (oInput && oInput.value) {
+          switch (oInput.id) {
+            case "userNameInput":
+              sUserName = oInput.value;
+              break;
+            case "emailInput":
+              sEmail = oInput.value;
+              break;
+            case "passwordInput":
+              sPassword = oInput.value;
+              break;
+            case "confirmPasswordInput":
+              sConfirmPassword = oInput.value;
+              break;
+            default:
+              break;
+          }
+        }
+      }
+      oValidationDiv.style.display = "none";
+      dispatch(authSignUp(sUserName, sEmail, sPassword, sConfirmPassword));
       this.props.onDismiss();
     }
   };
@@ -38,15 +71,16 @@ class SignUpPopup extends Component {
                 </button>
               </div>
               <div className="modal-body">
-                <form action="#" method="post">
-                  <div className="form-group needs-validation" novalidate>
+                <form id="signupForm" action="#" method="post">
+                  <div className="form-group needs-validation" noValidate>
                     <input
+                      id="userNameInput"
                       type="text"
                       className="form-control"
                       name="username"
                       placeholder="Username"
                       required="required"
-                      spellcheck="false"
+                      spellCheck="false"
                       data-ms-editor="true"
                       required
                       onBlurCapture={(e) => validateUserName(e)}
@@ -61,12 +95,13 @@ class SignUpPopup extends Component {
                   </div>
                   <div className="form-group">
                     <input
+                      id="emailInput"
                       type="text"
                       className="form-control"
                       name="email"
                       placeholder="Email Id"
                       required="required"
-                      spellcheck="false"
+                      spellCheck="false"
                       data-ms-editor="true"
                       onBlurCapture={(e) => validateEmailId(e)}
                     />
@@ -75,6 +110,7 @@ class SignUpPopup extends Component {
                   </div>
                   <div className="form-group">
                     <input
+                      id="passwordInput"
                       type="password"
                       className="form-control"
                       name="password"
@@ -91,12 +127,13 @@ class SignUpPopup extends Component {
                   </div>
                   <div className="form-group">
                     <input
+                      id="confirmPasswordInput"
                       type="password"
                       className="form-control"
                       name="confirmPassword"
                       placeholder="Confirm Password"
                       required="required"
-                      spellcheck="false"
+                      spellCheck="false"
                       data-ms-editor="true"
                       onBlurCapture={(e) => validateConfirmPassword(e)}
                     />
@@ -119,9 +156,19 @@ class SignUpPopup extends Component {
                     </button>
                   </div>
                 </form>
+                <p
+                  id="errorMessage"
+                  className="text-danger"
+                  style={{ justifyContent: "left", display: "none" }}
+                >
+                  One or more fields needs to be validated, kindly fill all the
+                  details and try again
+                </p>
               </div>
               <div className="modal-footer">
-                <a href="#">Already a User? Log In</a>
+                <button className="btn" onClick={this.props.renderLogin}>
+                  Already a User? Log In
+                </button>
               </div>
             </div>
           </div>

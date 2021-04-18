@@ -3,19 +3,27 @@ import "../css/navbar.css";
 import "bootstrap/dist/css/bootstrap.css";
 import LoginPopUp from "./loginpopup";
 import SignUpPopup from "./signuppopup";
+import ForgotPassword from "./forgotpassword";
 import { GlobalStore } from "../index";
 
 class Navbar extends Component {
   state = {
     showpopup: true,
     showSignUpPopup: true,
+    showPassWordReset: true,
   };
   div = null;
   signUpDiv = null;
+  passwordResetDiv = null;
 
   togglePopUp = () => {
     if (this.state.showpopup) {
-      this.div = <LoginPopUp onDismiss={this.togglePopUp} />;
+      this.div = (
+        <LoginPopUp
+          onDismiss={this.togglePopUp}
+          ResetWindow={this.togglePasswordReset}
+        />
+      );
       this.signUpDiv = null;
     } else {
       this.div = null;
@@ -25,7 +33,12 @@ class Navbar extends Component {
 
   toggleSignUp = () => {
     if (this.state.showSignUpPopup) {
-      this.signUpDiv = <SignUpPopup onDismiss={this.toggleSignUp} />;
+      this.signUpDiv = (
+        <SignUpPopup
+          onDismiss={this.toggleSignUp}
+          renderLogin={this.toggleLoginFromSignUp}
+        />
+      );
       this.div = null;
     } else {
       this.signUpDiv = null;
@@ -33,23 +46,47 @@ class Navbar extends Component {
     this.setState({ showSignUpPopup: !this.state.showSignUpPopup });
   };
 
-  showSuccessMessage = () => {
+  togglePasswordReset = () => {
+    if (this.state.showPassWordReset) {
+      this.passwordResetDiv = (
+        <ForgotPassword onDismiss={this.togglePasswordReset} />
+      );
+      this.div = null;
+    } else {
+      this.passwordResetDiv = null;
+    }
+    this.setState({
+      showPassWordReset: !this.state.showPassWordReset,
+      showpopup: true,
+    });
+  };
+
+  toggleLoginFromSignUp = () => {
+    this.togglePopUp();
+    this.setState({ showSignUpPopup: true });
+  };
+
+  showSuccessMessage = (login = true) => {
     let successMessageDiv = (
       <div
         id="successMesssage"
         className="alert alert-success alert-dismissible fade show"
         role="alert"
       >
-        Login successfull!
+        {login
+          ? "Login successfull!"
+          : "Sign up successfull, kindly click on login to continue"}
       </div>
     );
     return successMessageDiv;
   };
 
-  showFailureMessage = () => {
+  showFailureMessage = (login = true) => {
     let failureMessageDiv = (
       <div class="alert alert-danger" role="alert" id="failedMessage">
-        Login failed :) Please try again after some time.
+        {login
+          ? "Login failed :) Please try again after some time."
+          : "Sign up failed :) please try again after some time"}
       </div>
     );
     return failureMessageDiv;
@@ -67,9 +104,23 @@ class Navbar extends Component {
         }
       </GlobalStore.Consumer>
     );
+
+    let signMessageDiv = (
+      <GlobalStore.Consumer>
+        {(context) =>
+          context.showSignUpMessage
+            ? context.token
+              ? this.showSuccessMessage(false)
+              : this.showFailureMessage(false)
+            : null
+        }
+      </GlobalStore.Consumer>
+    );
+
     let navbar = (
       <React.Fragment>
         {messageDiv}
+        {signMessageDiv}
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
           <div className="container-fluid">
             <a className="navbar-brand" href="#">
@@ -112,6 +163,7 @@ class Navbar extends Component {
         </nav>
         {this.div}
         {this.signUpDiv}
+        {this.passwordResetDiv}
       </React.Fragment>
     );
     return navbar;

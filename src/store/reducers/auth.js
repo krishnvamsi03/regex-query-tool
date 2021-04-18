@@ -6,6 +6,7 @@ export const initialState = {
   error: null,
   loading: false,
   showMessage: false,
+  showSignUpMessage: false,
 };
 
 const authStart = (state, action) => {
@@ -46,6 +47,12 @@ const showMessage = (state, action) => {
   });
 };
 
+const showSignUpMessage = (state, action) => {
+  return updateObject(state, {
+    showSignUpMessage: !state.showSignUpMessage,
+  });
+};
+
 const reducer = (state, action) => {
   switch (action.type) {
     case actionTypes.AUTH_START:
@@ -58,6 +65,8 @@ const reducer = (state, action) => {
       return authFail(state, action);
     case actionTypes.SHOW_MESSAGE:
       return showMessage(state, action);
+    case actionTypes.SHOW_SIGNUP_MESSAGE:
+      return showSignUpMessage(state, action);
     default:
       return state;
   }

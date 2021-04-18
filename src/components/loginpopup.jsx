@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import "../css/loginpopup.css";
+import ForgotPassoword from "../components/forgotpassword";
 import { authLogin } from "../store/actions/auth";
 import { GlobalStore } from "../index";
 
 class LoginPopUp extends Component {
-  state = {};
+  state = {
+    showPasswordResetWindow : false
+  };
 
   handleSubmitAction = (dispatch) => {
     let oUsername = document.getElementById("loginInput");
@@ -75,7 +78,7 @@ class LoginPopUp extends Component {
             </form>
           </div>
           <div className="modal-footer">
-            <a href="#">Forgot Password?</a>
+            <button className="btn" onClick={this.props.ResetWindow}>Forgot password?</button>
           </div>
         </div>
       </div>

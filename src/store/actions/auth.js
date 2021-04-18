@@ -27,6 +27,12 @@ export const showMessage = () => {
   };
 };
 
+export const showSignUpMessage = () => {
+  return {
+    type: actionTypes.SHOW_SIGNUP_MESSAGE,
+  };
+};
+
 export const authLogout = () => {
   localStorage.removeItem("token");
   localStorage.removeItem("expirationTime");
@@ -95,11 +101,19 @@ export const authSignUp = (username, email, password, confirmPassword) => {
             new Date(new Date().getTime() + 3600 * 1000)
           );
           dispatch(authSuccess(response.data.token));
+          dispatch(showSignUpMessage());
+          setTimeout(() => {
+            dispatch(showSignUpMessage());
+          }, 3000);
           dispatch(checkAuthTimeOut(3600));
         }
       })
       .catch((error) => {
         dispatch(authFail(error));
+        dispatch(showSignUpMessage());
+          setTimeout(() => {
+            dispatch(showSignUpMessage());
+          }, 3000);
       });
   };
 };
