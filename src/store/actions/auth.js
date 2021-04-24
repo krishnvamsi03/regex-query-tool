@@ -111,9 +111,28 @@ export const authSignUp = (username, email, password, confirmPassword) => {
       .catch((error) => {
         dispatch(authFail(error));
         dispatch(showSignUpMessage());
-          setTimeout(() => {
-            dispatch(showSignUpMessage());
-          }, 3000);
+        setTimeout(() => {
+          dispatch(showSignUpMessage());
+        }, 3000);
       });
   };
+};
+
+export const authCheckState = (dispatch) => {
+  const token = localStorage.getItem("token");
+  if (token === undefined) {
+    dispatch(authLogout);
+  } else {
+    const expirationDate = new Date(localStorage.getItem("expirationTime"));
+    if (expirationDate <= new Date()) {
+      dispatch(authLogout);
+    } else {
+      dispatch(authSuccess(token));
+      dispatch(
+        checkAuthTimeOut(
+          (expirationDate.getTime() - new Date().getTime()) / 1000
+        )
+      );
+    }
+  }
 };

@@ -3,8 +3,48 @@ import SavedRegex from "./savedregex";
 import "../css/main.css";
 import "bootstrap/dist/css/bootstrap.css";
 import { GlobalStore } from "../index";
+import { saveRegexs } from "../store/actions/saveRegex";
 
 class Main extends Component {
+  handleSaveAction = (token) => {
+    let saveMessage = document.getElementById("saveMessage");
+    if (saveMessage) {
+      saveMessage.classList.add("alert");
+      saveMessage.classList.add("alert-danger");
+      if (!token) {
+        saveMessage.innerText = "Kindly login to save your details";
+        saveMessage.style.display = "block";
+        setTimeout(() => {
+          saveMessage.style.display = "none";
+        }, 2000);
+      } else {
+        let expressionInput = document.getElementById("expressionInput");
+        let expressionName = document.getElementById("saveInput");
+        if (expressionInput && !expressionInput.value) {
+          saveMessage.innerText = "Kindly enter some regex expression";
+          saveMessage.style.display = "block";
+          setTimeout(() => {
+            saveMessage.style.display = "none";
+          }, 2000);
+        } else if (expressionName && !expressionName.value) {
+          saveMessage.innerText = "Kindly enter name of expression";
+          saveMessage.style.display = "block";
+          setTimeout(() => {
+            saveMessage.style.display = "none";
+          }, 2000);
+        } else {
+          let language = document.getElementById("selectContainer");
+          saveRegexs(
+            token,
+            expressionInput.value,
+            expressionName.value,
+            language.children[0].value
+          );
+        }
+      }
+    }
+  };
+
   render() {
     let spinner = (
       <GlobalStore.Consumer>
@@ -18,6 +58,9 @@ class Main extends Component {
           ) : null
         }
       </GlobalStore.Consumer>
+    );
+    let successSaveMessage = (
+      <div className="" role="alert" id="saveMessage"></div>
     );
     let expressionInput = (
       <GlobalStore.Consumer>
@@ -83,10 +126,12 @@ class Main extends Component {
                       </div>
                       <button
                         className="btn btn-outline-primary btn-block"
-                        type="submit"
+                        type="button"
+                        onClick={() => this.handleSaveAction(context.token)}
                       >
                         Save
                       </button>
+                      {successSaveMessage}
                     </form>
                     <div id="savedRegex">
                       <p>Saved Regex</p>

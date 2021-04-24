@@ -22,7 +22,7 @@ export const Provider = ({ children }) => {
 };
 
 const asyncer = (dispatch, state) => (action) => {
-  typeof action === "function" ? action(dispatch, state) : dispatch(state);
+  typeof action === "function" ? action(dispatch, state) : dispatch(action);
 };
 
 ReactDOM.render(

@@ -5,6 +5,7 @@ import LoginPopUp from "./loginpopup";
 import SignUpPopup from "./signuppopup";
 import ForgotPassword from "./forgotpassword";
 import { GlobalStore } from "../index";
+import { authLogout } from "../store/actions/auth";
 
 class Navbar extends Component {
   state = {
@@ -83,13 +84,19 @@ class Navbar extends Component {
 
   showFailureMessage = (login = true) => {
     let failureMessageDiv = (
-      <div class="alert alert-danger" role="alert" id="failedMessage">
+      <div className="alert alert-danger" role="alert" id="failedMessage">
         {login
           ? "Login failed :) Please try again after some time."
           : "Sign up failed :) please try again after some time"}
       </div>
     );
     return failureMessageDiv;
+  };
+
+  handleLogoutAction = (dispatch) => {
+    if (dispatch) {
+      dispatch(authLogout());
+    }
   };
 
   render() {
@@ -130,7 +137,11 @@ class Navbar extends Component {
               <GlobalStore.Consumer>
                 {(context) =>
                   context.token ? (
-                    <button id="logoutLink" className="btn btn-primary">
+                    <button
+                      id="logoutLink"
+                      className="btn btn-primary"
+                      onClick={() => this.handleLogoutAction(context.dispatch)}
+                    >
                       Logout
                     </button>
                   ) : (
