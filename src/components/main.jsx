@@ -4,6 +4,7 @@ import "../css/main.css";
 import "bootstrap/dist/css/bootstrap.css";
 import { GlobalStore } from "../index";
 import { saveRegexs } from "../store/actions/saveRegex";
+import { validateFindRegex } from "../store/actions/main";
 
 class Main extends Component {
   handleSaveAction = (token) => {
@@ -82,6 +83,7 @@ class Main extends Component {
                           id="expressionInput"
                           aria-describedby="basic-addon3"
                           placeholder="Enter Regex Expression"
+                          onBlurCapture={(e) => validateFindRegex(e)}
                         />
                       </div>
                     </div>
@@ -95,17 +97,18 @@ class Main extends Component {
                         defaultValue="JavaScript"
                       >
                         <option value="JavaScript">JavaScript</option>
-                        <option value="Python">Python</option>
+                        {/* <option value="Python">Python</option> */}
                       </select>
                     </div>
                   </div>
                   <div className="form-floating">
                     <label htmlFor="testInput">Test String</label>
-                    <textarea
+                    <div
                       className="form-control"
                       placeholder="Test your string here"
                       id="testInput"
-                    ></textarea>
+                      contentEditable="true"
+                    ></div>
                   </div>
                 </div>
                 <div className="col-4">

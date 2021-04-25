@@ -7,11 +7,27 @@ export const saveRegexs = (token, regexName, regexPattern, regexLanguage) => {
         token: token,
         regexName: regexName,
         regexPattern: regexPattern,
-        regexLanguage: regexLanguage
+        regexLanguage: regexLanguage,
       })
       .then((response) => {
         if (response && response.data) {
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+};
 
+export const deleteRegex = (token, id) => {
+  if (token) {
+    axios
+      .post("http://127.0.0.1:8000/api/delete", {
+        token: token,
+        savedRegexId: id,
+      })
+      .then((response) => {
+        if (response && response.data) {
         }
       })
       .catch((error) => {
