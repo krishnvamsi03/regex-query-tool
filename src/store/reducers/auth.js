@@ -53,6 +53,13 @@ const showSignUpMessage = (state, action) => {
   });
 };
 
+const showLoadingIndicator = (state, action) => {
+  return updateObject(state, {
+    loading: !state.loading
+  })
+}
+
+
 const reducer = (state, action) => {
   switch (action.type) {
     case actionTypes.AUTH_START:
@@ -67,6 +74,8 @@ const reducer = (state, action) => {
       return showMessage(state, action);
     case actionTypes.SHOW_SIGNUP_MESSAGE:
       return showSignUpMessage(state, action);
+    case actionTypes.SHOW_LOADING_INDICATOR:
+      return showLoadingIndicator(state, action);
     default:
       return state;
   }

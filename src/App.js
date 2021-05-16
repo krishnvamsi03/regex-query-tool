@@ -1,6 +1,7 @@
 import "./App.css";
 import Navbar from "./components/navbar";
 import Main from "./components/main";
+import Pattern from "./components/patterns";
 import React, { useContext, useEffect } from "react";
 import * as action from "./store/actions/auth";
 import { GlobalStore } from "./index";
@@ -17,6 +18,7 @@ function App() {
     <React.Fragment>
       <Navbar />
       <Main />
+      {/* <Pattern /> */}
     </React.Fragment>
   );
 }

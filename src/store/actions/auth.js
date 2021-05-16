@@ -41,6 +41,12 @@ export const authLogout = () => {
   };
 };
 
+export const showLoadingIndicator = () => {
+  return {
+    type: actionTypes.SHOW_LOADING_INDICATOR
+  }
+}
+
 export const checkAuthTimeOut = (expirationTime) => {
   return (dispatch) => {
     setTimeout(() => {

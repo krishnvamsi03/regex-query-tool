@@ -27,8 +27,14 @@ body {
   display: inline;
 }
 
-#selectContainer {
+#selectContainer,
+#getPatternBtn {
   margin-top: 33px;
+}
+
+#getPatternBtn {
+  /* margin-left: 2px; */
+  padding-left: 5px;
 }
 
 #selectContainer select {
@@ -51,10 +57,15 @@ body {
   width: 100%;
 }
 
-#savedRegex div {
+#savedRegex div,
+#result .underline {
   width: 100%;
   height: 1px;
   background-color: black;
+}
+
+#result {
+  margin-top: 20px;
 }
 
 #expressionDiv input,
@@ -82,4 +93,21 @@ body {
   top: 40%;
   width: 5em;
   height: 5em;
+}
+
+.patternsDiv span {
+  margin-left: 5px;
+  margin-right: 5px;
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.patternsDiv {
+  float: left;
+  justify-content: left;
+  margin-bottom: 20px;
+}
+
+.modalBodyPattern {
+  padding: 0px 1px 0px 3px !important;
 }

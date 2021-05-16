@@ -2,46 +2,21 @@ import React, { Component } from "react";
 import "../css/savedregex.css";
 import "bootstrap/dist/css/bootstrap.css";
 import InfoCard from "./infocard";
+import { GlobalStore } from "../index";
+import axios from "axios";
 
 class SavedRegex extends Component {
   state = {
     list: [
-      {
-        id: 1,
-        regexName: "Saved Regex 1",
-        showCard: false,
-      },
-      {
-        id: 2,
-        regexName: "Saved Regex 2",
-        showCard: false,
-      },
-      {
-        id: 3,
-        regexName: "Saved Regex 3",
-        showCard: false,
-      },
-      {
-        id: 4,
-        regexName: "Saved Regex 4",
-        showCard: false,
-      },
-      {
-        id: 5,
-        regexName: "Saved Regex 5",
-        showCard: false,
-      },
-      {
-        id: 6,
-        regexName: "Saved Regex 6",
-        showCard: false,
-      },
-      {
-        id: 7,
-        regexName: "Saved Regex 7",
-        showCard: false,
-      },
     ],
+  };
+
+  componentDidMount = () => {
+    if (this.props.token) {
+      this.fetchRegex(true, this.props.token);
+    } else {
+      this.fetchRegex(false);
+    }
   };
 
   deleteRecord = (Id) => {
@@ -58,6 +33,32 @@ class SavedRegex extends Component {
       }
     }
     this.setState({ list });
+  };
+
+  fetchRegex = (show, token = null) => {
+    if (show && token) {
+      axios
+        .post("http://localhost:8000/api/saved", { token: token })
+        .then((response) => {
+          if (response && response.data) {
+            let list = [];
+            for (let item of response.data.list) {
+              let temp = {};
+              temp["id"] = item.id;
+              temp["regexName"] = item.regexname;
+              temp["regexPattern"] = item.regexpattern;
+              temp["showCard"] = false;
+              list.push(temp);
+            }
+            this.setState({ list: list });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      this.setState({ list: [] });
+    }
   };
 
   render() {
@@ -99,7 +100,7 @@ class SavedRegex extends Component {
             </div>
             <InfoCard
               key={ele.id}
-              pattern={ele.regexName}
+              pattern={ele.regexPattern}
               showHid={ele.showCard}
             />
           </React.Fragment>

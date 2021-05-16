@@ -1,15 +1,24 @@
 import React, { Component } from "react";
 import SavedRegex from "./savedregex";
+import Pattern from "./patterns";
 import "../css/main.css";
 import "bootstrap/dist/css/bootstrap.css";
 import { GlobalStore } from "../index";
 import { saveRegexs } from "../store/actions/saveRegex";
 import { validateFindRegex } from "../store/actions/main";
+import { showLoadingIndicator } from "../store/actions/auth";
 
 class Main extends Component {
-  handleSaveAction = (token) => {
+  state = {
+    showPatterns: true,
+  };
+
+  showPatternDiv = null;
+  spinner = null;
+  handleSaveAction = async (token, dispatch) => {
     let saveMessage = document.getElementById("saveMessage");
     if (saveMessage) {
+      saveMessage.classList.remove("alert-info");
       saveMessage.classList.add("alert");
       saveMessage.classList.add("alert-danger");
       if (!token) {
@@ -35,19 +44,42 @@ class Main extends Component {
           }, 2000);
         } else {
           let language = document.getElementById("selectContainer");
-          saveRegexs(
+          dispatch(showLoadingIndicator());
+          let message = await saveRegexs(
             token,
-            expressionInput.value,
             expressionName.value,
+            expressionInput.value,
             language.children[0].value
           );
+          dispatch(showLoadingIndicator());
+          saveMessage.classList.remove("alert-danger");
+          saveMessage.classList.add("alert-info");
+          saveMessage.innerText = message;
+          saveMessage.style.display = "block";
+          setTimeout(() => {
+            saveMessage.style.display = "none";
+          }, 2000);
+          //this.forceUpdate();
         }
       }
     }
   };
 
+  togglePatternPopup = () => {
+    if (this.state.showPatterns) {
+      const matches = validateFindRegex();
+      this.showPatternDiv = (
+        <Pattern onDismiss={this.togglePatternPopup} matches={matches} />
+      );
+    } else {
+      this.showPatternDiv = null;
+    }
+    this.setState({ showPatterns: !this.state.showPatterns });
+  };
+
+  
   render() {
-    let spinner = (
+    this.spinner = (
       <GlobalStore.Consumer>
         {(context) =>
           context.loading ? (
@@ -67,12 +99,12 @@ class Main extends Component {
       <GlobalStore.Consumer>
         {(context) => (
           <React.Fragment>
-            {spinner}
+            {this.spinner}
             <div className="container">
               <div id="main" className="row">
                 <div className="col-8">
                   <div className="expressionContainer row no-gutters">
-                    <div id="expressionDiv" className="col-10">
+                    <div id="expressionDiv" className="col-8">
                       <label htmlFor="expressionInput" className="form-label">
                         Enter Regex Expression
                       </label>
@@ -83,7 +115,7 @@ class Main extends Component {
                           id="expressionInput"
                           aria-describedby="basic-addon3"
                           placeholder="Enter Regex Expression"
-                          onBlurCapture={(e) => validateFindRegex(e)}
+                          // onBlurCapture={(e) => validateFindRegex(e)}
                         />
                       </div>
                     </div>
@@ -99,6 +131,14 @@ class Main extends Component {
                         <option value="JavaScript">JavaScript</option>
                         {/* <option value="Python">Python</option> */}
                       </select>
+                    </div>
+                    <div id="getPatternBtn" className="col-2">
+                      <button
+                        className="btn btn-primary"
+                        onClick={this.togglePatternPopup}
+                      >
+                        Get Patterns
+                      </button>
                     </div>
                   </div>
                   <div className="form-floating">
@@ -130,7 +170,9 @@ class Main extends Component {
                       <button
                         className="btn btn-outline-primary btn-block"
                         type="button"
-                        onClick={() => this.handleSaveAction(context.token)}
+                        onClick={() =>
+                          this.handleSaveAction(context.token, context.dispatch)
+                        }
                       >
                         Save
                       </button>
@@ -142,7 +184,7 @@ class Main extends Component {
                     </div>
                   </div>
                   {context.token ? (
-                    <SavedRegex />
+                    <SavedRegex token={context.token} list = {() => this.fetch}/>
                   ) : (
                     <div className="alert alert-info" role="alert">
                       Login to see your saved regex
@@ -151,6 +193,7 @@ class Main extends Component {
                 </div>
               </div>
             </div>
+            {this.showPatternDiv}
           </React.Fragment>
         )}
       </GlobalStore.Consumer>
