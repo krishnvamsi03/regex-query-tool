@@ -109,7 +109,7 @@ class SavedRegex extends Component {
                       key={"imagenameEdit" + ele.id}
                       src="https://firebasestorage.googleapis.com/v0/b/regex-query-tool.appspot.com/o/edit.png?alt=media&token=d313bcac-f5a2-4613-b63f-d7cf0591967e"
                       className="trashIcon"
-                      title="Edit Regex"
+                      title="Dev is lazy to work on this feature, will update soon."
                     ></img>
                   </div>
                 </div>
