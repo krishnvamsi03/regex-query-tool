@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useContext } from "react";
 import SavedRegex from "./savedregex";
 import Pattern from "./patterns";
 import "../css/main.css";
@@ -7,10 +7,12 @@ import { GlobalStore } from "../index";
 import { saveRegexs } from "../store/actions/saveRegex";
 import { validateFindRegex } from "../store/actions/main";
 import { showLoadingIndicator } from "../store/actions/auth";
+import axios from "axios";
 
 class Main extends Component {
   state = {
     showPatterns: true,
+    list: [],
   };
 
   showPatternDiv = null;
@@ -77,7 +79,38 @@ class Main extends Component {
     this.setState({ showPatterns: !this.state.showPatterns });
   };
 
-  
+  fetchRegex = (show, token = null) => {
+    if (show && token) {
+      axios
+        .post("http://localhost:8000/api/saved", { token: token })
+        .then((response) => {
+          if (response && response.data) {
+            let list = [];
+            for (let item of response.data.list) {
+              let temp = {};
+              temp["id"] = item.id;
+              temp["regexName"] = item.regexname;
+              temp["regexPattern"] = item.regexpattern;
+              temp["showCard"] = false;
+              list.push(temp);
+            }
+            this.setState({ list: list });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      this.setState({ list: [] });
+    }
+  };
+
+  componentDidMount = () => {
+    <GlobalStore.Consumer>
+      {(context) => this.fetchRegex(true, context.token)}
+    </GlobalStore.Consumer>;
+  };
+
   render() {
     this.spinner = (
       <GlobalStore.Consumer>
@@ -184,7 +217,11 @@ class Main extends Component {
                     </div>
                   </div>
                   {context.token ? (
-                    <SavedRegex token={context.token} list = {() => this.fetch}/>
+                    <SavedRegex
+                      token={context.token}
+                      list={this.state.list}
+                      dispatch={context.dispatch}
+                    />
                   ) : (
                     <div className="alert alert-info" role="alert">
                       Login to see your saved regex
