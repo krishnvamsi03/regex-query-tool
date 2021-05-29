@@ -1,5 +1,6 @@
 import axios from "axios";
 import * as actionTypes from "./actionTypes";
+import { saveRegexs, deleteRegex } from "./saveRegex";
 
 export const authStart = () => {
   return {
@@ -43,14 +44,30 @@ export const authLogout = () => {
 
 export const showLoadingIndicator = () => {
   return {
-    type: actionTypes.SHOW_LOADING_INDICATOR
-  }
-}
+    type: actionTypes.SHOW_LOADING_INDICATOR,
+  };
+};
+
+export const showFetchRegex = (saveRegexs) => {
+  return {
+    type: actionTypes.FETCH_REGEX,
+    saveRegexs: saveRegexs,
+  };
+};
+
+export const onClickShowCard = (Id) => {
+  return {
+    type: actionTypes.SHOW_HIDE_CARD,
+    Id: Id
+  };
+};
 
 export const checkAuthTimeOut = (expirationTime) => {
   return (dispatch) => {
     setTimeout(() => {
-      dispatch(authLogout);
+      dispatch(authLogout());
+      let dispatchFetchRegex = fetchRegex();
+      dispatchFetchRegex(dispatch);
     }, expirationTime * 1000);
   };
 };
@@ -58,13 +75,14 @@ export const checkAuthTimeOut = (expirationTime) => {
 export const authLogin = (username, password) => {
   return (dispatch) => {
     dispatch(authStart());
+    let invalidUserPass = "Inavlid username or password";
     axios
       .post("http://127.0.0.1:8000/api/login", {
         username: username,
         passward: password,
       })
       .then((response) => {
-        if (response && response.data) {
+        if (response && response.data && response.data.token) {
           localStorage.setItem("token", response.data.token);
           localStorage.setItem(
             "expirationTime",
@@ -75,8 +93,16 @@ export const authLogin = (username, password) => {
           setTimeout(() => {
             dispatch(showMessage());
           }, 3000);
+          let dispatchFetchRegex = fetchRegex();
+          dispatchFetchRegex(dispatch);
           let dispatchTimeOut = checkAuthTimeOut(3600);
           dispatchTimeOut(dispatch);
+        } else {
+          dispatch(authFail(invalidUserPass));
+          dispatch(showMessage());
+          setTimeout(() => {
+            dispatch(showMessage());
+          }, 3000);
         }
       })
       .catch((error) => {
@@ -100,7 +126,7 @@ export const authSignUp = (username, email, password, confirmPassword) => {
         confirmPassword: confirmPassword,
       })
       .then((response) => {
-        if (response && response.data) {
+        if (response && response.data && response.data.token) {
           localStorage.setItem("token", response.data.token);
           localStorage.setItem(
             "expirationTime",
@@ -112,6 +138,12 @@ export const authSignUp = (username, email, password, confirmPassword) => {
             dispatch(showSignUpMessage());
           }, 3000);
           dispatch(checkAuthTimeOut(3600));
+        } else {
+          dispatch(authFail("Failed to Sign up"));
+          dispatch(showSignUpMessage());
+          setTimeout(() => {
+            dispatch(showSignUpMessage());
+          }, 3000);
         }
       })
       .catch((error) => {
@@ -128,6 +160,7 @@ export const authCheckState = (dispatch) => {
   const token = localStorage.getItem("token");
   if (token === undefined) {
     dispatch(authLogout);
+    dispatch(fetchRegex());
   } else {
     const expirationDate = new Date(localStorage.getItem("expirationTime"));
     if (expirationDate <= new Date()) {
@@ -140,5 +173,49 @@ export const authCheckState = (dispatch) => {
         )
       );
     }
+    dispatch(fetchRegex());
   }
+};
+
+export const fetchRegex = () => {
+  return (dispatch) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      axios
+        .post("http://localhost:8000/api/saved", { token: token })
+        .then((response) => {
+          if (response && response.data) {
+            let list = [];
+            for (let item of response.data.list) {
+              let temp = {};
+              temp["id"] = item.id;
+              temp["regexName"] = item.regexname;
+              temp["regexPattern"] = item.regexpattern;
+              temp["showCard"] = false;
+              list.push(temp);
+              dispatch(showFetchRegex(list));
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          dispatch(showFetchRegex([]));
+        });
+    } else {
+      dispatch(showFetchRegex([]));
+    }
+  };
+};
+
+export const deleteRegexById = (Id) => {
+  return async (dispatch) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      dispatch(showLoadingIndicator());
+      await deleteRegex(token, Id);
+      let dispatchFetchRegex = fetchRegex();
+      dispatchFetchRegex(dispatch);
+      dispatch(showLoadingIndicator());
+    }
+  };
 };

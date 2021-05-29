@@ -6,17 +6,23 @@ import "bootstrap/dist/css/bootstrap.css";
 import { GlobalStore } from "../index";
 import { saveRegexs } from "../store/actions/saveRegex";
 import { validateFindRegex } from "../store/actions/main";
-import { showLoadingIndicator } from "../store/actions/auth";
+import {
+  deleteRegexById,
+  fetchRegex,
+  showLoadingIndicator,
+} from "../store/actions/auth";
 import axios from "axios";
 
 class Main extends Component {
   state = {
     showPatterns: true,
-    list: [],
+    list: this.props.list !== undefined ? this.props.list : [],
   };
 
   showPatternDiv = null;
   spinner = null;
+  token = localStorage.getItem("token");
+
   handleSaveAction = async (token, dispatch) => {
     let saveMessage = document.getElementById("saveMessage");
     if (saveMessage) {
@@ -62,6 +68,7 @@ class Main extends Component {
             saveMessage.style.display = "none";
           }, 2000);
           //this.forceUpdate();
+          dispatch(fetchRegex());
         }
       }
     }
@@ -106,9 +113,17 @@ class Main extends Component {
   };
 
   componentDidMount = () => {
-    <GlobalStore.Consumer>
-      {(context) => this.fetchRegex(true, context.token)}
-    </GlobalStore.Consumer>;
+    // <GlobalStore.Consumer>
+    //   {(context) => this.}
+    // </GlobalStore.Consumer>
+    let token = localStorage.getItem("token");
+    if (token) {
+      this.fetchRegex(true, token);
+    }
+  };
+
+  deleteRegexMain = (dispatch, Id) => {
+    dispatch(deleteRegexById(Id));
   };
 
   render() {
@@ -127,6 +142,28 @@ class Main extends Component {
     );
     let successSaveMessage = (
       <div className="" role="alert" id="saveMessage"></div>
+    );
+    let saveRegex = this.token ? (
+      this.state.list.length > 0 ? (
+        this.state.list.map((ele) => {
+          <SavedRegex
+            token={this.token}
+            list={this.state.list}
+            key={ele.id}
+            regexName={ele.regexName}
+            regexPattern={ele.regexPattern}
+            showCard={ele.showCard}
+          />;
+        })
+      ) : (
+        <div class="alert alert-primary" role="alert">
+          No saved Regex.
+        </div>
+      )
+    ) : (
+      <div className="alert alert-info" role="alert">
+        Login to see your saved regex
+      </div>
     );
     let expressionInput = (
       <GlobalStore.Consumer>
@@ -216,17 +253,48 @@ class Main extends Component {
                       <div></div>
                     </div>
                   </div>
-                  {context.token ? (
-                    <SavedRegex
-                      token={context.token}
-                      list={this.state.list}
-                      dispatch={context.dispatch}
-                    />
+                  {/* {this.token ? (
+                    <SavedRegex token={this.token} list={this.state.list} />
                   ) : (
                     <div className="alert alert-info" role="alert">
                       Login to see your saved regex
                     </div>
-                  )}
+                  )} */}
+                  <GlobalStore.Consumer>
+                    {(context) =>
+                      context.token ? (
+                        context.saveRegexs.length > 0 ? (
+                          context.saveRegexs.map((ele) => (
+                            <SavedRegex
+                              token={this.token}
+                              list={context.saveRegexs}
+                              key={ele.id}
+                              id={ele.id}
+                              regexName={ele.regexName}
+                              regexPattern={ele.regexPattern}
+                              showCard={ele.showCard}
+                              deleteRegex={() =>
+                                this.deleteRegexMain(context.dispatch, ele.id)
+                              }
+                            />
+                          ))
+                        ) : (
+                          <div class="alert alert-primary" role="alert">
+                            No saved Regex.
+                          </div>
+                        )
+                      ) : (
+                        <div className="alert alert-info" role="alert">
+                          Login to see your saved regex
+                        </div>
+                      )
+                    }
+                  </GlobalStore.Consumer>
+                  {/* {this.token ? (
+                    
+                  ) : (
+                    
+                  )} */}
                 </div>
               </div>
             </div>
@@ -238,5 +306,4 @@ class Main extends Component {
     return expressionInput;
   }
 }
-
 export default Main;

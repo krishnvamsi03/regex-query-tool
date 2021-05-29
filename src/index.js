@@ -17,6 +17,7 @@ export const Provider = ({ children }) => {
     showSignUpMessage: state.showSignUpMessage,
     dispatch: dispatch,
     state: state,
+    saveRegexs: state.saveRegexs,
   };
   return <GlobalStore.Provider value={value}>{children}</GlobalStore.Provider>;
 };

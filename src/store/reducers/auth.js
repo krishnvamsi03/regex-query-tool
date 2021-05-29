@@ -7,6 +7,7 @@ export const initialState = {
   loading: false,
   showMessage: false,
   showSignUpMessage: false,
+  saveRegexs: [],
 };
 
 const authStart = (state, action) => {
@@ -55,10 +56,27 @@ const showSignUpMessage = (state, action) => {
 
 const showLoadingIndicator = (state, action) => {
   return updateObject(state, {
-    loading: !state.loading
-  })
-}
+    loading: !state.loading,
+  });
+};
 
+const fetchRegex = (state, action) => {
+  return updateObject(state, {
+    saveRegexs: action.saveRegexs,
+  });
+};
+
+const showHideCard = (state, action, Id) => {
+  let list = [...state.saveRegexs];
+  for (let item of list) {
+    if (item.id === Id) {
+      item.showCard = !item.showCard;
+    }
+  }
+  return updateObject(state, {
+    saveRegexs: list,
+  });
+};
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -76,6 +94,12 @@ const reducer = (state, action) => {
       return showSignUpMessage(state, action);
     case actionTypes.SHOW_LOADING_INDICATOR:
       return showLoadingIndicator(state, action);
+    case actionTypes.FETCH_REGEX:
+      return fetchRegex(state, action);
+    case actionTypes.DELETE_REGEX:
+      return fetchRegex(state, action);
+    case actionTypes.SHOW_HIDE_CARD:
+      return showHideCard(state, action, action.Id);
     default:
       return state;
   }

@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import "../css/loginpopup.css";
 import ForgotPassoword from "../components/forgotpassword";
-import { authLogin } from "../store/actions/auth";
+import { authLogin, fetchRegex } from "../store/actions/auth";
 import { GlobalStore } from "../index";
 
 class LoginPopUp extends Component {
   state = {
-    showPasswordResetWindow : false
+    showPasswordResetWindow: false,
   };
 
   handleSubmitAction = (dispatch) => {
@@ -14,19 +14,14 @@ class LoginPopUp extends Component {
     let oPassword = document.getElementById("passwordInput");
     if (oUsername && oPassword) {
       dispatch(authLogin(oUsername.value, oPassword.value));
+      dispatch(fetchRegex());
     }
     this.props.onDismiss();
   };
 
   render() {
-    const {
-      token,
-      error,
-      loading,
-      showMessage,
-      dispatch,
-      state,
-    } = GlobalStore._currentValue;
+    const { token, error, loading, showMessage, dispatch, state } =
+      GlobalStore._currentValue;
     let data = (
       <div id="popupWindow" className="modals">
         <div className="modal-content">
@@ -78,7 +73,9 @@ class LoginPopUp extends Component {
             </form>
           </div>
           <div className="modal-footer">
-            <button className="btn" onClick={this.props.ResetWindow}>Forgot password?</button>
+            <button className="btn" onClick={this.props.ResetWindow}>
+              Forgot password?
+            </button>
           </div>
         </div>
       </div>

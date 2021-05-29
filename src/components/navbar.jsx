@@ -5,7 +5,7 @@ import LoginPopUp from "./loginpopup";
 import SignUpPopup from "./signuppopup";
 import ForgotPassword from "./forgotpassword";
 import { GlobalStore } from "../index";
-import { authLogout } from "../store/actions/auth";
+import { authLogout, fetchRegex } from "../store/actions/auth";
 
 class Navbar extends Component {
   state = {
@@ -96,6 +96,7 @@ class Navbar extends Component {
   handleLogoutAction = (dispatch) => {
     if (dispatch) {
       dispatch(authLogout());
+      dispatch(fetchRegex());
     }
   };
 

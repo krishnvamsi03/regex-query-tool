@@ -24,7 +24,7 @@ export const validateFindRegex = () => {
       let test = testString.innerText;
       let matches = test.match(regex);
       let finalAns = [];
-      if (matches.length == 0) {
+      if (matches.length === 0) {
         return ["No pattern"];
       } else {
         if (matches.input === undefined) {
