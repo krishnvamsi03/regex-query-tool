@@ -6,7 +6,7 @@ export function loginUser(event) {
     let oPassword = document.getElementById("passwordInput");
     if (oUserName && oPassword) {
       axios
-        .post("http://127.0.0.1:8000/api/login", {
+        .post("https://regex-query-tool-backend.herokuapp.com/api/login", {
           username: oUserName.value,
           passward: oPassword.value,
         })

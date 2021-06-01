@@ -1,4 +1,4 @@
-import React, { Component, useContext } from "react";
+import React, { Component } from "react";
 import SavedRegex from "./savedregex";
 import Pattern from "./patterns";
 import "../css/main.css";
@@ -89,7 +89,7 @@ class Main extends Component {
   fetchRegex = (show, token = null) => {
     if (show && token) {
       axios
-        .post("http://localhost:8000/api/saved", { token: token })
+        .post("https://regex-query-tool-backend.herokuapp.com/api/saved", { token: token })
         .then((response) => {
           if (response && response.data) {
             let list = [];
@@ -142,28 +142,6 @@ class Main extends Component {
     );
     let successSaveMessage = (
       <div className="" role="alert" id="saveMessage"></div>
-    );
-    let saveRegex = this.token ? (
-      this.state.list.length > 0 ? (
-        this.state.list.map((ele) => {
-          <SavedRegex
-            token={this.token}
-            list={this.state.list}
-            key={ele.id}
-            regexName={ele.regexName}
-            regexPattern={ele.regexPattern}
-            showCard={ele.showCard}
-          />;
-        })
-      ) : (
-        <div class="alert alert-primary" role="alert">
-          No saved Regex.
-        </div>
-      )
-    ) : (
-      <div className="alert alert-info" role="alert">
-        Login to see your saved regex
-      </div>
     );
     let expressionInput = (
       <GlobalStore.Consumer>
@@ -279,7 +257,7 @@ class Main extends Component {
                             />
                           ))
                         ) : (
-                          <div class="alert alert-primary" role="alert">
+                          <div className="alert alert-primary" role="alert">
                             No saved Regex.
                           </div>
                         )

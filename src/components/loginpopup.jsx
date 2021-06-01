@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "../css/loginpopup.css";
-import ForgotPassoword from "../components/forgotpassword";
 import { authLogin, fetchRegex } from "../store/actions/auth";
 import { GlobalStore } from "../index";
 
@@ -20,7 +19,7 @@ class LoginPopUp extends Component {
   };
 
   render() {
-    const { token, error, loading, showMessage, dispatch, state } =
+    const { dispatch } =
       GlobalStore._currentValue;
     let data = (
       <div id="popupWindow" className="modals">

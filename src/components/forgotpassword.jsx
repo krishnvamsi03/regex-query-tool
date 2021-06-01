@@ -9,7 +9,6 @@ class ForgotPassword extends Component {
     let oResetEmailId = document.getElementById("resetEmailId");
     let oMessage = document.getElementById("successMessage");
     let oFailMessage = document.getElementById("failureMessage");
-    let oValid = document.getElementById("validResetEmail");
     let oInvalid = document.getElementById("inValidResetEmail");
     if (oResetEmailId) {
       if (oResetEmailId.value) {

@@ -9,7 +9,7 @@ export const saveRegexs = async (
   if (token) {
     let message = "";
     await axios
-      .post("http://127.0.0.1:8000/api/saveregex", {
+      .post("https://regex-query-tool-backend.herokuapp.com/api/saveregex", {
         token: token,
         regexName: regexName,
         regexPattern: regexPattern,
@@ -31,7 +31,7 @@ export const deleteRegex = async (token, id) => {
   if (token) {
     let message = "";
     await axios
-      .post("http://127.0.0.1:8000/api/delete", {
+      .post("https://regex-query-tool-backend.herokuapp.com/api/delete", {
         token: token,
         savedRegexId: id,
       })

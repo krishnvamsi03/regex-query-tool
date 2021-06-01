@@ -4,13 +4,10 @@ import "bootstrap/dist/css/bootstrap.css";
 import InfoCard from "./infocard";
 import { GlobalStore } from "../index";
 import axios from "axios";
-import { saveRegexs, deleteRegex } from "../store/actions/saveRegex";
+import { deleteRegex } from "../store/actions/saveRegex";
 import { onClickShowCard, showLoadingIndicator } from "../store/actions/auth";
 
 class SavedRegex extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   state = {
     list: this.props.list !== undefined ? this.props.list : [],
@@ -47,7 +44,7 @@ class SavedRegex extends Component {
   fetchRegex = (show, token = null) => {
     if (show && token) {
       axios
-        .post("http://localhost:8000/api/saved", { token: token })
+        .post("https://regex-query-tool-backend.herokuapp.com/api/saved", { token: token })
         .then((response) => {
           if (response && response.data) {
             let list = [];
@@ -92,11 +89,13 @@ class SavedRegex extends Component {
               className="trashIcon"
               title="Delete regex"
               onClick={this.props.deleteRegex}
+              alt="delete icon"
             ></img>
             <img
               src="https://firebasestorage.googleapis.com/v0/b/regex-query-tool.appspot.com/o/edit.png?alt=media&token=d313bcac-f5a2-4613-b63f-d7cf0591967e"
               className="trashIcon"
               title="Dev is lazy to work on this feature, will update soon."
+              alt="update icon"
             ></img>
           </div>
         </div>

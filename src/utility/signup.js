@@ -21,7 +21,7 @@ export function validateUserName(event) {
         }
       } else {
         axios
-          .post("http://127.0.0.1:8000/api/getusername", { username: sValue })
+          .post("https://regex-query-tool-backend.herokuapp.com/api/getusername", { username: sValue })
           .then((response) => {
             if (response.data.taken) {
               event.target.classList.remove("is-valid");

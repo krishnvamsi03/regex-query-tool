@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as actionTypes from "./actionTypes";
-import { saveRegexs, deleteRegex } from "./saveRegex";
+import { deleteRegex } from "./saveRegex";
 
 export const authStart = () => {
   return {
@@ -77,7 +77,7 @@ export const authLogin = (username, password) => {
     dispatch(authStart());
     let invalidUserPass = "Inavlid username or password";
     axios
-      .post("http://127.0.0.1:8000/api/login", {
+      .post("https://regex-query-tool-backend.herokuapp.com/api/login", {
         username: username,
         passward: password,
       })
@@ -119,7 +119,7 @@ export const authSignUp = (username, email, password, confirmPassword) => {
   return (dispatch) => {
     dispatch(authStart());
     axios
-      .post("http://127.0.0.1:8000/api/signup", {
+      .post("https://regex-query-tool-backend.herokuapp.com/api/signup", {
         username: username,
         email: email,
         passward: password,
@@ -182,7 +182,7 @@ export const fetchRegex = () => {
     const token = localStorage.getItem("token");
     if (token) {
       axios
-        .post("http://localhost:8000/api/saved", { token: token })
+        .post("https://regex-query-tool-backend.herokuapp.com/api/saved", { token: token })
         .then((response) => {
           if (response && response.data) {
             let list = [];

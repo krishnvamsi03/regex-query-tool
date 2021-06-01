@@ -131,7 +131,7 @@ class Navbar extends Component {
         {signMessageDiv}
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
           <div className="container-fluid">
-            <a className="navbar-brand" href="#">
+            <a className="navbar-brand" href="/">
               Regez Tool
             </a>
             <div id="authContainer" className="d-flex">

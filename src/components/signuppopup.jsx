@@ -82,7 +82,6 @@ class SignUpPopup extends Component {
                       required="required"
                       spellCheck="false"
                       data-ms-editor="true"
-                      required
                       onBlurCapture={(e) => validateUserName(e)}
                     />
                     <div id="userNameValid" className="valid-feedback">
@@ -116,7 +115,6 @@ class SignUpPopup extends Component {
                       name="password"
                       placeholder="Password"
                       required="required"
-                      id="passwordInput"
                       onBlurCapture={(e) => validatePassword(e)}
                     />
                     <div id="validPassword" className="valid-feedback"></div>

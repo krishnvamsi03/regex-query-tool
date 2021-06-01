@@ -1,14 +1,10 @@
 import React, { Component } from "react";
-import { validateFindRegex } from "../store/actions/main";
 
 class Patterns extends Component {
   state = {
     matches: this.props.matches,
   };
 
-  constructor(props) {
-    super(props);
-  }
   componentDidMount = () => {
     // const matches = validateFindRegex();
     // this.setState({ matches: matches });
