@@ -2,14 +2,14 @@ import axios from "axios";
 export function validateUserName(event) {
   if (null != event) {
     let sValue = event.target.value;
-    if (sValue && 0 < sValue.length) {
-      let rLengthExpress = /^(?=.{8,20})/g;
+    if (sValue && 8 < sValue.length && 16 > sValue.length) {
+      let rLengthExpress = /^(?=.{8,15})/g;
       if (!sValue.match(rLengthExpress)) {
         event.target.classList.remove("is-valid");
         event.target.classList.add("is-invalid");
         let oInValidDiv = document.getElementById("userNameInvalid");
         if (oInValidDiv) {
-          oInValidDiv.innerText = "Username should be 8-20 character";
+          oInValidDiv.innerText = "Username should be 8-15 character";
         }
       } else if (!sValue.match(/^[a-zA-Z0-9._]*$/)) {
         event.target.classList.remove("is-valid");
@@ -43,6 +43,13 @@ export function validateUserName(event) {
             console.log(error);
           });
       }
+    } else {
+      event.target.classList.remove("is-valid");
+      event.target.classList.add("is-invalid");
+      let oInValidDiv = document.getElementById("userNameInvalid");
+      if (oInValidDiv) {
+        oInValidDiv.innerText = "Username should be 8-15 character";
+      }
     }
   }
 }
@@ -69,7 +76,7 @@ export function validateEmailId(event) {
 
 export function validatePassword(event) {
   if (null != event) {
-    let rPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,10}$/;
+    let rPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
     let sValue = event.target.value;
     if (sValue && 0 < sValue.length) {
       let oInValidDiv = document.getElementById("invalidPassword");
@@ -78,7 +85,7 @@ export function validatePassword(event) {
         event.target.classList.add("is-invalid");
         if (oInValidDiv) {
           oInValidDiv.innerText =
-            "Password should contain at least\n" +
+            "Password should be minimum 8 characters long and should contain at least\n" +
             "One Uppercase letter\n" +
             "One lowercase letter\n" +
             "One Number\n" +

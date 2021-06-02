@@ -24,8 +24,11 @@ export const validateFindRegex = () => {
       let test = testString.innerText;
       let matches = test.match(regex);
       let finalAns = [];
+      if (!matches) {
+        return ["No pattern found"]
+      }
       if (matches.length === 0) {
-        return ["No pattern"];
+        return ["No pattern found"];
       } else {
         if (matches.input === undefined) {
           for (let match of Object.values(matches)) {
@@ -35,7 +38,7 @@ export const validateFindRegex = () => {
           }
         } else {
           if (0 === matches[0].trim().length) {
-            finalAns.push("No patterns matched");
+            finalAns.push("No patterns found");
           } else {
             finalAns.push(matches[0]);
           }

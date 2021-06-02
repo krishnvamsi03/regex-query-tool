@@ -5,6 +5,7 @@ import React, { useContext, useEffect } from "react";
 import * as action from "./store/actions/auth";
 import { GlobalStore } from "./index";
 
+let isUserLogout = true;
 function App() {
   const value = useContext(GlobalStore);
   let state = {
@@ -12,8 +13,11 @@ function App() {
   };
 
   useEffect(() => {
-    if (null == value.token) {
+    if (null == value.token && isUserLogout) {
       action.authCheckState(value.dispatch);
+      isUserLogout = false;
+    } else {
+      isUserLogout = true
     }
   });
 

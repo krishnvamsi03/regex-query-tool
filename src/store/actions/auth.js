@@ -58,7 +58,7 @@ export const showFetchRegex = (saveRegexs) => {
 export const onClickShowCard = (Id) => {
   return {
     type: actionTypes.SHOW_HIDE_CARD,
-    Id: Id
+    Id: Id,
   };
 };
 
@@ -182,7 +182,9 @@ export const fetchRegex = () => {
     const token = localStorage.getItem("token");
     if (token) {
       axios
-        .post("https://regex-query-tool-backend.herokuapp.com/api/saved", { token: token })
+        .post("https://regex-query-tool-backend.herokuapp.com/api/saved", {
+          token: token,
+        })
         .then((response) => {
           if (response && response.data) {
             let list = [];
